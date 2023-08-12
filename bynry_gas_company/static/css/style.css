@@ -1,0 +1,10 @@
+
+body{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.home{
+    display: grid;
+    grid-template-rows: 5vh 90vh 5vh;
+}
