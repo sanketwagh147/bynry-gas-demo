@@ -1,1 +1,6 @@
 venv/**
+bynry_gas_company/db.sqlite3
+bynry_gas_company/.env
+__pycache__
+*.pyc
+.vscode
