@@ -1,5 +1,6 @@
 from dataclasses import field
 from typing import Any, Dict, Mapping, Optional, Type, Union
+from django.forms import ClearableFileInput
 
 from django import forms
 from django.core.files.base import File
@@ -7,9 +8,11 @@ from django.db.models.base import Model
 from django.forms.utils import ErrorList
 import os
 from django.core.exceptions import ValidationError
+from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 
 
-from .models import BynryUser, BynryUserProfile
+
+from .models import BynryUser, BynryUserProfile, ServiceRequests
 
 def allow_only_images_validator(value):
     ext = os.path.splitext(value.name)[1]
@@ -97,3 +100,12 @@ class BynryUserInfoForm(forms.ModelForm):
             "last_name",
             "phone_number",
         ]
+
+
+class ServiceRequestForm(forms.ModelForm):
+    attachments = MultiFileField(min_num=1, max_num=3, max_file_size=1024*1024*5)
+    class Meta:
+        model = ServiceRequests
+        fields = [ 'service_type', 'description']
+
+

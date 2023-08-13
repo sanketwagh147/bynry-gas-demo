@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.views.generic.edit import FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from consumer_services.models import BynryUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import auth, messages
 
 # Create your views here.
-from .forms import BynryUserForm
+from .forms import BynryUserForm, ServiceRequestForm
+from .models import FileUpload
 
 
 def consumer_home(request):
@@ -110,3 +114,46 @@ def logout(request):
     auth.logout(request)
     messages.info(request, "You are now logged out")
     return redirect("login")
+
+
+# def create_service_request(request):
+#     if request.method == 'POST':
+#         form = ServiceRequestForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             service_request = form.save()
+#             return redirect('success_view')
+#     else:
+#         form = ServiceRequestForm()
+#     return render(request, 'consumer_services/service_request_form.html', {'form': form})
+
+
+class ServiceRequestView(LoginRequiredMixin,FormView):
+    login_url = 'login/'
+    form_class = ServiceRequestForm
+    template_name = 'consumer_services/service_request_form.html'  # Replace with your template.
+    success_url = "..."
+
+    def form_valid(self, form):
+            file_arr = []
+            form.instance.requested_by = self.request.user 
+            for each in form.cleaned_data['attachments']:
+                pk_id = FileUpload.objects.create(file=each)
+                file_arr.append(pk_id.pk)
+
+            form.instance.files= file_arr
+
+            form.save()
+            return super(ServiceRequestView, self).form_valid(form)
+
+def create_service_request(request):
+    if request.method == 'POST':
+         form = ServiceRequestForm(request.POST, request.FILES)
+         files = request.FILES.getlist('files')
+         if form.is_valid():
+             for f in files:
+                 file_instance = ServiceRequestForm(files=f)
+                 file_instance.save()
+    else:
+         form = ServiceRequestForm()
+
+    return render(request, "consumer_services/service_request_form.html", {'form': form})

@@ -4,3 +4,6 @@ bynry_gas_company/.env
 __pycache__
 *.pyc
 .vscode
+*.pdf
+*.png
+*.jpg

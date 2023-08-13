@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import Point
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 
@@ -126,10 +127,11 @@ class BynryUserProfile(models.Model):
         if self.latitude and self.longitude:
             self.location = Point(float(self.longitude), float(self.latitude))
         return super(BynryUserProfile, self).save(*args, **kwargs)
-
+    
 class FileUpload(models.Model):
     file = models.FileField(upload_to='uploads/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
 
 class ServiceRequests(models.Model):
     INSTALLATION = OPEN = LOW =0
@@ -166,14 +168,13 @@ class ServiceRequests(models.Model):
         (HIGH, 'High'),
     ]
 
-
+    files = ArrayField(models.BigIntegerField(), null=True, blank=True)
     requested_by = models.ForeignKey(BynryUser, on_delete=models.CASCADE)
     service_type = models.PositiveSmallIntegerField(
         choices=service_types, blank=True, null=True
     )
     priority = models.PositiveSmallIntegerField(choices=PRIORITY_CHOICES, default=0)
     description = models.TextField()
-    files = models.ManyToManyField('FileUpload')
     current_status = models.PositiveSmallIntegerField(
         choices=service_types, blank=True, null=True, default=0
     )
