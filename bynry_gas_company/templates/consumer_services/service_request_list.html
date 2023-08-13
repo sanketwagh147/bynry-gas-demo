@@ -6,16 +6,21 @@
 <ul class="service_request_list" >
     {% for service_request in service_requests %}
       <li>
-        <div class="card" style="width: 18rem;">
+        <div class="card ticket-card" style="width: 18rem;">
             <div class="card-body">
+              <h1>Ticket ID: {{service_request.pk}}</h1>
+              {% if request.user.role == 1 %}
+              <h5 class="card-title"> {{service_request.requested_by}}  </h5>
+                {% endif %}
               <h5 class="card-title">{{ service_request.get_service_type_display }}</h5>
               <h6 class="card-subtitle mb-2 text-muted">{{ service_request.get_current_status_display }}</h6>
-              <p class="card-text">Priority: {{ service_request.get_priority_display }}</p>
+              <h6 class="card-subtitle mb-2 text-muted">Created at: {{ service_request.created_at }}</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Last Updated: {{ service_request.updated_at }}</h6>
+              <p class="card-text {{service_request.get_priority_display|lower}}">Priority: {{ service_request.get_priority_display }}</p>
               <p class="card-text">    {{service_request.description}}</p>
-              <a href="#" class="card-link">View Details</a>
+              <button class="btn btn-primary" type="button"><a href="{% url 'service_request_detail' pk=service_request.pk %}" class="card-link">Update ticket</a></button>
             </div>
         </div>
-        <!-- Add other fields as needed -->
     </li>
     {% endfor %}
 </ul>

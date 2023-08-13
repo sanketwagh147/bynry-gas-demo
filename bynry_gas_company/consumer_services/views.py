@@ -4,6 +4,12 @@ from django.urls import reverse
 from django.views.generic.edit import FormView
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormMixin
+from django.urls import reverse
+from django.shortcuts import redirect
+from .models import ServiceRequests
+from .forms import ServiceRequestUpdateForm
 
 from consumer_services.models import BynryUser
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -155,8 +161,15 @@ class ServiceRequestListView(LoginRequiredMixin,ListView):
     model = ServiceRequests
     template_name = 'consumer_services/service_request_list.html'
     context_object_name = 'service_requests'  # This will be used in the template
+
+    
+
     def get_queryset(self):
-        return ServiceRequests.objects.filter(requested_by=self.request.user)
+        print(self)
+        if self.request.user.role != 1:
+            return ServiceRequests.objects.filter(requested_by=self.request.user).order_by('-updated_at')
+        else: 
+            return ServiceRequests.objects.all().order_by('-updated_at')
     
 def create_service_request(request):
     if request.method == 'POST':
@@ -170,3 +183,29 @@ def create_service_request(request):
          form = ServiceRequestForm()
 
     return render(request, "consumer_services/service_request_form.html", {'form': form})
+
+
+class ServiceRequestDetailView(FormMixin, DetailView):
+    model = ServiceRequests
+    template_name = 'consumer_services/service_request_detail.html'
+    form_class = ServiceRequestUpdateForm
+
+    def get_success_url(self):
+        return reverse('service_request_list', )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            # Update the current status and priority
+            self.object.current_status = form.cleaned_data['current_status']
+            self.object.priority = form.cleaned_data['priority']
+            self.object.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)

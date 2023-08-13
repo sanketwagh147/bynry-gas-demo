@@ -1,9 +1,8 @@
-{% extends 'consumer_services/base.html' %} 
-{% load static %}
-{% block main_content %}
-			
-<div class="div">
-    REquests customer show and manage all requests by customer
-</div>
+{% extends 'consumer_services/base.html' %}
 
-{% endblock main_content %}
+{% block main_content %}
+<h1>Customer Service Requests</h1>
+
+<button class="btn btn-primary"><a href="{% url 'service_request_list' %}">View Customer Requests</a></button>
+<button class="btn btn-primary"><a href="{% url 'create_service_request' %}">Requests new service</a></button>
+{% endblock %}

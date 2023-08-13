@@ -109,3 +109,9 @@ class ServiceRequestForm(forms.ModelForm):
         fields = [ 'service_type', 'description']
 
 
+class ServiceRequestUpdateForm(forms.ModelForm):
+    class Meta:
+        model = ServiceRequests
+        fields = ['current_status', 'priority']
+
+

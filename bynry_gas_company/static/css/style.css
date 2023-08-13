@@ -114,3 +114,37 @@ a{
     text-decoration: none;
 
 }
+@keyframes blink-text {
+    0% {
+     opacity: 0;
+    }
+    50% {
+     opacity: 1;
+    }
+    100% {
+     opacity: 0;
+    }
+}
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  
+}
+
+.ticket-card{
+    width: 25rem !important;
+    margin-top: 1rem;
+}
+
+.low{
+    color: rgb(236, 169, 169);
+}
+.medium{
+    color: rgb(168, 52, 52);
+}
+.high{
+    color: rgb(102, 6, 6);
+    animation: blink-text 1.9s linear infinite;
+}

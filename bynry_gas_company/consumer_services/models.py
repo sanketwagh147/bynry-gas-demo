@@ -89,7 +89,7 @@ class BynryUser(AbstractBaseUser):
 
     def get_role(self):
         if self.role == 1:
-            user_role = "Vendor"
+            user_role = "Manager"
         else:
             user_role = "Customer"
         return user_role
