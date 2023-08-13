@@ -27,6 +27,10 @@
         <a href="{% url 'consumer_sign_up' %}"><button type="button" class="w-100 btn btn-lg btn-primary mt-4" >Register</button></a>
         <p class="mt-5 mb-3 text-muted">© Bynry</p>
     </form>
-        <div></div>
+        <div><ul class="alert-danger messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul></div>
 </div>
 {% endblock main_content %}

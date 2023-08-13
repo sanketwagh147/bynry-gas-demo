@@ -3,8 +3,8 @@
 {% block main_content %}
 			
 <div class="div">
-    REquests customer show and manage all requests by the give user
-    <a href="{% url 'create_service_request' %}">Requests service</a>
+    <button class="btn btn-primary"><a href="{% url 'service_request_list' %}">Existing</a></button>
+    <button class="btn btn-primary"><a href="{% url 'create_service_request' %}">Requests new service</a></button>
 </div>
 
 {% endblock main_content %}

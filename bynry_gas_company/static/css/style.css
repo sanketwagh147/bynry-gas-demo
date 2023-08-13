@@ -28,6 +28,7 @@ input:focus, .border-primary{
 .btn-primary , .bg-primary {
     background-color: var(--primary-color) !important; 
     border-color: var(--primary-color) !important; 
+    color: #fff;
 }
 
 .btn-outline-secondary, .btn-outline-primary{
@@ -36,11 +37,12 @@ input:focus, .border-primary{
 
 }
 
+
 a{
     color: var(--primary-color)
 }
 .bynry{
-
+    
     color: var(--primary-color)
 }
 .btn:hover{
@@ -51,7 +53,7 @@ a{
 .form-logo > i{
     font-size: 100px;
     height: 50vh;
-
+    
 }
 
 .form-sign-up{
@@ -89,8 +91,26 @@ a{
 .logout > a {
     text-decoration: none;
     color: #fff;
-
+    
 }
 .navbar-brand{
     margin-left: 2rem !important;
+    
+}
+
+.container-service-request{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    
+}
+.service_request_list{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    
+    
+}
+.btn-primary > a {
+    color: #fff;
+    text-decoration: none;
+
 }

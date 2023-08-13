@@ -68,7 +68,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "orders.request_object.RequestObjectMiddleware",  # custom middle ware gives request object
 ]
 
 # ROOT_URLCONF = "my_website.urls"

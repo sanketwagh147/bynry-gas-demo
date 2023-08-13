@@ -1,0 +1,23 @@
+<!-- service_request_list.html -->
+{% extends 'consumer_services/base.html' %}
+
+{% block main_content %}
+<h1>Service Requests</h1>
+<ul class="service_request_list" >
+    {% for service_request in service_requests %}
+      <li>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{ service_request.get_service_type_display }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ service_request.get_current_status_display }}</h6>
+              <p class="card-text">Priority: {{ service_request.get_priority_display }}</p>
+              <p class="card-text">    {{service_request.description}}</p>
+              <a href="#" class="card-link">View Details</a>
+            </div>
+        </div>
+        <!-- Add other fields as needed -->
+    </li>
+    {% endfor %}
+</ul>
+<button class="btn btn-primary"><a href="{% url 'create_service_request' %}">Requests new service</a></button>
+{% endblock %}

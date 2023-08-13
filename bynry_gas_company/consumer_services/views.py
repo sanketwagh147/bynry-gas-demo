@@ -1,6 +1,8 @@
+from urllib import request
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
+from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from consumer_services.models import BynryUser
@@ -9,7 +11,7 @@ from django.contrib import auth, messages
 
 # Create your views here.
 from .forms import BynryUserForm, ServiceRequestForm
-from .models import FileUpload
+from .models import FileUpload, ServiceRequests
 
 
 def consumer_home(request):
@@ -73,9 +75,11 @@ def login(request):
         if user is not None:
             auth.login(request, user)
             messages.success(request, "You are now logged in")
+            print(messages)
             return redirect("myRequests")
         else:
             messages.error(request, "Invalid Login credentials")
+            print(messages)
             return redirect("login")
     return render(request, "consumer_services/sign_in.html")
 def detect_user(user):
@@ -107,7 +111,8 @@ def customerRequests(request):
 def userRequests(request):
     user = request.user
     context = {}
-    return render(request, "consumer_services/requests_user.html", context)
+    # return render(request, "consumer_services/requests_user.html", context)
+    return redirect("create_service_request")
 
 
 def logout(request):
@@ -128,10 +133,10 @@ def logout(request):
 
 
 class ServiceRequestView(LoginRequiredMixin,FormView):
-    login_url = 'login/'
+    login_url = 'login'
     form_class = ServiceRequestForm
     template_name = 'consumer_services/service_request_form.html'  # Replace with your template.
-    success_url = "..."
+    success_url = "/service_requests/"
 
     def form_valid(self, form):
             file_arr = []
@@ -145,6 +150,14 @@ class ServiceRequestView(LoginRequiredMixin,FormView):
             form.save()
             return super(ServiceRequestView, self).form_valid(form)
 
+class ServiceRequestListView(LoginRequiredMixin,ListView):
+    login_url = 'login'
+    model = ServiceRequests
+    template_name = 'consumer_services/service_request_list.html'
+    context_object_name = 'service_requests'  # This will be used in the template
+    def get_queryset(self):
+        return ServiceRequests.objects.filter(requested_by=self.request.user)
+    
 def create_service_request(request):
     if request.method == 'POST':
          form = ServiceRequestForm(request.POST, request.FILES)

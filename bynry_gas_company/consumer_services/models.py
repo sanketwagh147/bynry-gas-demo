@@ -68,7 +68,7 @@ class BynryUser(AbstractBaseUser):
     modified_date = models.DateTimeField(auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_superadmin = models.BooleanField(default=False)
 
     # To set up customer default login field of the user use this property
@@ -176,7 +176,7 @@ class ServiceRequests(models.Model):
     priority = models.PositiveSmallIntegerField(choices=PRIORITY_CHOICES, default=0)
     description = models.TextField()
     current_status = models.PositiveSmallIntegerField(
-        choices=service_types, blank=True, null=True, default=0
+        choices=status_types, blank=True, null=True, default=0
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
