@@ -1,10 +1,96 @@
-
+:root{
+    --primary-color: #f04e1f
+}
 body{
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    height: 100vh !important;
+}
+
+ul{
+    list-style: none !important;
 }
 
 .home{
     display: grid;
-    grid-template-rows: 5vh 90vh 5vh;
+    grid-template-rows: .3fr 8fr 0.1fr;
+
+}
+
+.bi-fire {
+    color: var(--primary-color)
+}
+input:focus, .border-primary{
+
+    border-color: var(--primary-color) !important; 
+}
+
+.btn-primary , .bg-primary {
+    background-color: var(--primary-color) !important; 
+    border-color: var(--primary-color) !important; 
+}
+
+.btn-outline-secondary, .btn-outline-primary{
+    border-color: var(--primary-color) !important; 
+    color: var(--primary-color)!important;
+
+}
+
+a{
+    color: var(--primary-color)
+}
+.bynry{
+
+    color: var(--primary-color)
+}
+.btn:hover{
+    background-color: var(--primary-color) !important; 
+    color: #fff !important;
+
+}
+.form-logo > i{
+    font-size: 100px;
+    height: 50vh;
+
+}
+
+.form-sign-up{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-control:focus{
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.25rem rgba(221, 164, 110, 0.25);
+}
+
+.register-btn{
+    width: 100%;
+    padding: .6px !important;
+}
+
+.help-inline{
+    color: red !important;
+}
+.col{
+    flex: min-content !important;
+}
+.container-fluid{
+    height: 90vh !important;
+}
+.login-page{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.logout{
+    margin-right: 3rem;
+}
+.logout > a {
+    text-decoration: none;
+    color: #fff;
+
+}
+.navbar-brand{
+    margin-left: 2rem !important;
 }

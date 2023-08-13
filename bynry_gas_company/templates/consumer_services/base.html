@@ -15,14 +15,13 @@
 
         {% include "consumer_services/navbar.html" %} 
         <div class="container-fluid">
-        <div class="main">
-        {% include "consumer_services/main.html" %} 
-
-            
+            {% block main_content %}
+            {% include "consumer_services/main.html" %} 
+            {% endblock main_content %}
         </div>
         
-    </div>
-    {% include "consumer_services/footer.html" %} 
+
+        {% include "consumer_services/footer.html" %} 
     </div>
 
 </body>

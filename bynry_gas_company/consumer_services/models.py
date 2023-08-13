@@ -6,7 +6,7 @@ from django.db import models
 # Create your models here.
 
 
-class UserManager(BaseUserManager):
+class BynryUserManager(BaseUserManager):
     def create_user(
         self,
         first_name,
@@ -49,16 +49,16 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
-    VENDOR = 1
+class BynryUser(AbstractBaseUser):
+    MANAGER = 1
     CUSTOMER = 2
 
-    ROLE_CHOICE = ((VENDOR, "Vendor"), (CUSTOMER, "Customer"))
+    ROLE_CHOICE = ((MANAGER, "manager"), (CUSTOMER, "Customer"))
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
-    phone_number = models.CharField(max_length=12, blank=True)
+    phone_number = models.CharField(max_length=12, blank=True, null=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICE, blank=True, null=True)
 
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -75,7 +75,7 @@ class User(AbstractBaseUser):
 
     REQUIRED_FIELDS = ["username", "first_name", "last_name"]
 
-    objects = UserManager()
+    objects = BynryUserManager()
 
     def __str__(self):
         return self.email
@@ -94,8 +94,10 @@ class User(AbstractBaseUser):
         return user_role
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+class BynryUserProfile(models.Model):
+    user = models.OneToOneField(
+        BynryUser, on_delete=models.CASCADE, blank=True, null=True
+    )
     profile_picture = models.ImageField(
         upload_to="users/profile_pictures", blank=True, null=True
     )
@@ -123,4 +125,62 @@ class UserProfile(models.Model):
     def save(self, *args, **kwargs):
         if self.latitude and self.longitude:
             self.location = Point(float(self.longitude), float(self.latitude))
-        return super(UserProfile, self).save(*args, **kwargs)
+        return super(BynryUserProfile, self).save(*args, **kwargs)
+
+class FileUpload(models.Model):
+    file = models.FileField(upload_to='uploads/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class ServiceRequests(models.Model):
+    INSTALLATION = OPEN = LOW =0
+    DELIVERY = ASSIGNED = MEDIUM =1
+    SAFETY_INSPECTION = IN_PROGRESS = HIGH = 2
+    MAINTENANCE = PENDING_CUSTOMER_RESPONSE = 3
+    REPAIR = SCHEDULED = 4
+    BILLING_ASSISTANCE = COMPLETED = 5
+    ESCALATED = 6
+    CLOSED = 7
+
+    service_types = (
+        (INSTALLATION, "Installation"),
+        (DELIVERY, "Delivery"),
+        (SAFETY_INSPECTION, "Safety Inspection"),
+        (MAINTENANCE, "Maintenance"),
+        (REPAIR, "Repairs"),
+        (BILLING_ASSISTANCE, "Billing Assistance"),
+    )
+
+    status_types = (
+        (OPEN, "Open"),
+        (ASSIGNED, "Assigned"),
+        (IN_PROGRESS, "In Progress"),
+        (PENDING_CUSTOMER_RESPONSE, "Customer Response Pending"),
+        (SCHEDULED, "Scheduled"),
+        (COMPLETED, "Completed"),
+        (ESCALATED, "Escalated"),
+        (CLOSED, "Closed"),
+    )
+    PRIORITY_CHOICES = [
+        (LOW, 'Low'),
+        (MEDIUM, 'Medium'),
+        (HIGH, 'High'),
+    ]
+
+
+    requested_by = models.ForeignKey(BynryUser, on_delete=models.CASCADE)
+    service_type = models.PositiveSmallIntegerField(
+        choices=service_types, blank=True, null=True
+    )
+    priority = models.PositiveSmallIntegerField(choices=PRIORITY_CHOICES, default=0)
+    description = models.TextField()
+    files = models.ManyToManyField('FileUpload')
+    current_status = models.PositiveSmallIntegerField(
+        choices=service_types, blank=True, null=True, default=0
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    #! As user is foreign key instead of str we use unicode
+    def __unicode__(self):
+        return self.requested_by

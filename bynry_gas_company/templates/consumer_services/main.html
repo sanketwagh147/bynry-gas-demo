@@ -1,18 +1,20 @@
+{% extends 'consumer_services/base.html' %}
+{% block main_content %}
 <div class="container py-3">
-    <div class="px-4 py-5 my-5 text-center">
-        <h1 class="display-5 fw-bold">Bynry Demo Gas Company</h1>
+  <div class="px-4 py-4 my-5 text-center">
+        <h1 class="display-5 fw-bold bynry">Bynry Gas </h1>
         <div class="col-lg-6 mx-auto">
           <p class="lead mb-4">Discover reliable and eco-friendly gas solutions with Bynry demo gas company. We offer residential, commercial, and industrial services, prioritizing safety, reliability, and environmental responsibility. Count on us for steady energy supply and top-notch customer support. Join us in shaping a cleaner, brighter future with natural gas.</p>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Get connection</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Know more..</button>
           </div>
         </div>
       </div>
-    
-  
-    <main>
-      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+      
+      
+      <main>
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         <div class="col">
           <div class="card mb-4 rounded-3 shadow-sm">
             <div class="card-header py-3">
@@ -27,7 +29,7 @@
                 <li>Paid Call support</li>
                 <li>7 day Service time</li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
+              <a href="{% url 'consumer_sign_up' %}"><button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button></a>
             </div>
           </div>
         </div>
@@ -45,7 +47,7 @@
                 <li>Free Call support</li>
                 <li>2 day Service time</li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-primary">Get started</button>
+              <a href="{% url 'consumer_sign_up' %}"><button type="button" class="w-100 btn btn-lg btn-primary">Get started</button></a>
             </div>
           </div>
         </div>
@@ -63,15 +65,16 @@
                 <li>Free Call support</li>
                 <li>Same Day service</li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
+              <a href="{% url 'consumer_sign_up' %}"><button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button></a>
             </div>
           </div>
         </div>
       </div>
-  
-  
+      
+      
       
     </main>
   
     
   </div>
+  {% endblock main_content %}
