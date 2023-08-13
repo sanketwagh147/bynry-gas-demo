@@ -44,6 +44,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "sanketwagh.com",
     "www.sanketwagh.com",
+    "13.235.94.90"
 ]
 
 
@@ -56,7 +57,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.gis",
     "consumer_services",
 ]
 
@@ -96,15 +96,16 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        # "ENGINE": "django.db.backends.postgresql",
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
-    }
-}
+            "default": {
+                        "ENGINE": "django.db.backends.postgresql",
+                                # "ENGINE": "django.contrib.gis.db.backends.postgis",
+                                        "NAME": config("DB_NAME"),
+                                                "USER": config("DB_USER"),
+                                                        "PASSWORD": config("DB_PASSWORD"),
+                                                                "HOST": config("DB_HOST"),
+                                                                    }
+        }
+print(DATABASES)
 
 
 # Password validation
@@ -159,19 +160,5 @@ EMAIL_HOST_USER = config("EMAIL_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_PASS")
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "Bynry Gas Company"
-
-# For GDal only
-if LOCAL:
-    os.environ["PATH"] = (
-        r"C:\Users\sanket wagh\Desktop\Django-hotel\.venv\Lib\site-packages\osgeo"
-        + ";"
-        + os.environ["PATH"]
-    )
-    os.environ["PROJ_LIB"] = (
-        r"C:\Users\sanket wagh\Desktop\Django-hotel\.venv\Lib\site-packages\osgeo\data\proj"
-        + ";"
-        + os.environ["PATH"]
-    )
-    GDAL_LIBRARY_PATH = r"C:\Users\sanket wagh\Desktop\Django-hotel\.venv\Lib\site-packages\osgeo\gdal304.dll"
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"

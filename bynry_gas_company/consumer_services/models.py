@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.contrib.gis.db import models as gis_models
-from django.contrib.gis.geos import Point
+#from django.contrib.gis.db import models as gis_models
+#from django.contrib.gis.geos import Point
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
@@ -53,6 +53,7 @@ class BynryUserManager(BaseUserManager):
 class BynryUser(AbstractBaseUser):
     MANAGER = 1
     CUSTOMER = 2
+    test = 3
 
     ROLE_CHOICE = ((MANAGER, "manager"), (CUSTOMER, "Customer"))
     first_name = models.CharField(max_length=50)
@@ -113,7 +114,6 @@ class BynryUserProfile(models.Model):
     latitude = models.CharField(max_length=20, blank=True, null=True)
     longitude = models.CharField(max_length=20, blank=True, null=True)
     # spatial reference id default
-    location = gis_models.PointField(blank=True, null=True, srid=4326)
     create_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -125,7 +125,8 @@ class BynryUserProfile(models.Model):
 
     def save(self, *args, **kwargs):
         if self.latitude and self.longitude:
-            self.location = Point(float(self.longitude), float(self.latitude))
+            #self.location = Point(float(self.longitude), float(self.latitude))
+            pass
         return super(BynryUserProfile, self).save(*args, **kwargs)
     
 class FileUpload(models.Model):
