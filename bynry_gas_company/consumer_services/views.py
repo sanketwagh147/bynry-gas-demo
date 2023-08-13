@@ -161,6 +161,7 @@ class ServiceRequestListView(LoginRequiredMixin,ListView):
     model = ServiceRequests
     template_name = 'consumer_services/service_request_list.html'
     context_object_name = 'service_requests'  # This will be used in the template
+    ordering = ['-created_at', 'updated_at']
 
     
 

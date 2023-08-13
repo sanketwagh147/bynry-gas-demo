@@ -134,7 +134,7 @@ a{
 }
 
 .ticket-card{
-    width: 25rem !important;
+    width: 22rem !important;
     margin-top: 1rem;
 }
 
@@ -147,4 +147,8 @@ a{
 .high{
     color: rgb(102, 6, 6);
     animation: blink-text 1.9s linear infinite;
+}
+
+.closed{
+    background-color: #eee;
 }

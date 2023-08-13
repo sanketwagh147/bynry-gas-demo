@@ -5,7 +5,7 @@
     <h1 class="my-4">Service Request Detail</h1>
     <div class="card mb-4">
       <div class="card-body">
-        <h1>Ticket ID: {{object.pk}}</h1>
+        <h2>Ticket ID: {{object.pk}}</h2>
         <h5 class="card-title">Requested by: {{ object.requested_by }}</h5>
         <p class="card-text">Service Type: {{ object.get_service_type_display }}</p>
         <!-- Add other fields as needed -->
@@ -16,8 +16,10 @@
         <h5 class="card-title">Update Status and Priority</h5>
         <form method="post" action="{% url 'service_request_detail' object.pk %}" enctype="multipart/form-data">
           {% csrf_token %}
+          {% if request.user.role == 1 %}
           {{ form.as_p }}
           <button type="submit" class="btn btn-primary">Update</button>
+          {% endif %}
         </form>
       </div>
     </div>

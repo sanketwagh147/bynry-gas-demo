@@ -76,7 +76,6 @@ ROOT_URLCONF = "bynry_gas_company.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        # "DIRS": ["templates", "my_website/templates"],
         "DIRS": ["templates", "bynry_gas_company/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -90,7 +89,6 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = "my_website.wsgi.application"
 # WSGI_APPLICATION = "bynry_gas_company.wsgi.application"
 
 
@@ -162,6 +160,7 @@ EMAIL_HOST_PASSWORD = config("EMAIL_PASS")
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "Bynry Gas Company"
 
+# For GDal only
 if LOCAL:
     os.environ["PATH"] = (
         r"C:\Users\sanket wagh\Desktop\Django-hotel\.venv\Lib\site-packages\osgeo"

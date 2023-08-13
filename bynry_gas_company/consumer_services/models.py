@@ -182,6 +182,5 @@ class ServiceRequests(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    #! As user is foreign key instead of str we use unicode
     def __unicode__(self):
         return self.requested_by
